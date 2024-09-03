@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-// r-3.9
 class Exception 
 {
     private:

@@ -28,10 +28,8 @@ Stack<T>::Stack() : size(0) {};
 template <typename T>
 Stack<T>::~Stack()
 {
-    while(!isEmpty())
-    {
-        pop();
-    }
+    queue<T> empty;
+    swap(stack, empty);
 }
 
 template <typename T>

@@ -2,29 +2,6 @@
 #include "NodeList.h"
 using namespace std;
 
-// template <typename T>
-// class NodeList
-// {
-//     private:
-//         struct Node;
-//         int n;
-//         Node* header;
-//         Node* trailer;
-//     public:
-//         NodeList();
-//         class Iterator;
-//         int size() const;
-//         bool empty() const;
-//         Iterator begin() const;
-//         Iterator end() const;
-//         void insertFront(const T& e); 
-//         void insertBack(const T& e); 
-//         void insert(const Iterator& p, const T& e); 
-//         void eraseFront(); 
-//         void eraseBack(); 
-//         void erase(const Iterator& p);
-// };
-
 template <typename T>
 struct NodeList<T>::Node
 {

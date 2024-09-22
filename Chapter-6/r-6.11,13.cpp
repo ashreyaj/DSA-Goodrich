@@ -42,8 +42,9 @@ class NodeList<T>::Iterator
         T& operator*();
         bool operator==(const Iterator& p) const;
         bool operator!=(const Iterator& p) const;
-        Iterator& operator++();
+        Iterator& operator++(); // pre-increment
         Iterator& operator--();
+        Iterator operator++(int); // post-increment
         friend class NodeList;
 };
 
@@ -75,6 +76,7 @@ bool NodeList<T>::Iterator::operator!=(const Iterator& p) const
 template <typename T>
 typename NodeList<T>::Iterator& NodeList<T>::Iterator::operator++()
 {
+    cout << "Calling pre-increment function" << endl;
     v = v->next;
     return *this; // return reference to updated position
 }
@@ -84,6 +86,15 @@ typename NodeList<T>::Iterator& NodeList<T>::Iterator::operator--()
 {
     v = v->prev;
     return *this;
+}
+
+template <typename T>
+typename NodeList<T>::Iterator NodeList<T>::Iterator::operator++(int)
+{
+    cout << "Calling post-increment function" << endl;
+    Iterator u = *this;
+    v = v->next;
+    return u;
 }
 
 template <typename T>
@@ -148,12 +159,21 @@ void NodeList<T>::erase(const Iterator& p)
 int main()
 {
     NodeList<int> l;
-    l.insertBack(1);
-    l.insertBack(2);
+    l.insertBack(4);
+    l.insertBack(5);
     l.insertFront(3);
+    l.insertFront(2);
+    l.insertFront(1);
     NodeList<int>::Iterator p = l.begin();
     cout << "First element: " << *p << endl;
     p = l.end();
     cout << "Last element: " << *p << endl;
+    cout << "--- Check pre- and post-increment operator ---" << endl;
+    NodeList<int>::Iterator f = l.begin();
+    NodeList<int>::Iterator f1 = ++f;
+    cout << "Element after pre-increment from begin(): " << *f1 <<endl;
+    f = l.begin();
+    f1 = f++;
+    cout << "Element after post-increment from begin(): " << *f1 <<endl;
     return EXIT_SUCCESS;
 }

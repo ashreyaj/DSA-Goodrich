@@ -27,6 +27,14 @@ class NodeList<T>::Iterator
 };
 
 template <typename T>
+class NodeSequence : public NodeList<T>
+{
+    public:
+        typename NodeList<T>::Iterator atIndex(int i) const;
+        int IndexOf(const typename NodeList<T>::Iterator& p) const;
+};
+
+template <typename T>
 NodeList<T>::Iterator::Iterator(Node* u)
 {
     v = u;
@@ -134,6 +142,42 @@ void NodeList<T>::erase(const Iterator& p)
     n--;
 }
 
+template <typename T>
+typename NodeList<T>::Iterator NodeSequence<T>::atIndex(int i) const
+{
+    typename NodeList<T>::Iterator p;
+    if ((i+1) < (NodeSequence<T>::size()-i))
+    {
+        p = NodeList<T>::begin();
+        for (int j=0; j<i; j++)
+        {
+            ++p;
+        }
+    }
+    else
+    {
+        p = NodeList<T>::end();
+        for (int j=NodeSequence<T>::size(); j!=(NodeSequence<T>::size()-i+1); j--)
+        {
+            p--;
+        }
+    }
+    return p;
+}
+
+template <typename T>
+int NodeSequence<T>::IndexOf(const typename NodeList<T>::Iterator& p) const
+{
+    int i = 0;
+    typename NodeList<T>::Iterator q = NodeList<T>::begin();
+    while (q != p && q != NodeList<T>::end())
+    {
+        ++q;
+        ++i;
+    }
+    return i;
+}
+
 int main()
 {
     NodeList<int> l;
@@ -153,5 +197,17 @@ int main()
     f = l.begin();
     f1 = f++;
     cout << "Element after post-increment from begin(): " << *f1 <<endl;
+
+    // R 6.14
+    NodeSequence<int> l1;
+    l1.insertBack(4);
+    l1.insertBack(5);
+    l1.insertFront(3);
+    l1.insertFront(2);
+    l1.insertFront(1);
+    typename NodeList<int>::Iterator p1 = l1.begin();
+    p1++;
+    cout << "Index of p1 is: " << l1.IndexOf(p1) << endl;
+
     return EXIT_SUCCESS;
 }
